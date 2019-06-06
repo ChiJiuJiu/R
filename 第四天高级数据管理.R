@@ -193,7 +193,7 @@ FirstName<-sapply(splitedNames,"[", )
 LastName<-sapply(splitedNames,"[", 2)
 
 #8.添加到数据框
-roster<-cbind(FirstName,LastName,roster[, -1])
+roster<-cbind(FirstName,LastName,roster[, -1])#合并时不包含第一列
 
 #9.排序
 roster[order(LastName,FirstName), ]

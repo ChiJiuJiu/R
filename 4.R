@@ -89,9 +89,111 @@ cat("hello",firstname,"\n")
 name <- "Bob"
 cat( "Hello", name, "\b.\n", "Isn\'t R", "\t", "GREAT?\n")
 
+#六、将函数应用于数据框
+
+a <- matrix(runif(12),nrow=3)
+a
+
+mean(a)
+apply(a, 1, mean)
+apply(a, 2, mean)
 
 
+#七、循环语句
+
+for (i in 1:10) print("Hello")
+
+i <- 10
+while (i > 0) {print("Hello"); i <- i - 1}
 
 
+#八、条件执行语句
+x <- 2.0
+
+if (x< 0.2){
+  x <- x+1
+  print("success!")
+}else{
+  x <- x-1
+  print("else success!")
+}
+
+
+x <- c(1,1,1,0,0,1,1)
+ifelse(x != 1, 1, 0) 
+
+result <- 3
+switch(result,"低异常点","偏低","正常","偏高","高异常点")
+
+#自定义函数
+mystats <- function(x, parametric=TRUE, print=FALSE) {
+  if (parametric) {
+    center <- mean(x); spread <- sd(x)
+  } else {
+    center <- median(x); spread <- mad(x)
+  }
+  if (print & parametric) {
+    cat("Mean=", center, "\n", "SD=", spread, "\n")
+  } else if (print & !parametric) {
+    cat("Median=", center, "\n", "MAD=", spread, "\n")
+  }
+  result <- list(center=center, spread=spread)
+  return(result)
+}
+#要生成一些数据（服从正态分布的，大小为500的随机样本）
+set.seed(1234)
+x <- rnorm(500)
+y <- mystats(x)
+y <- mystats(x, parametric=FALSE, print=TRUE)
+
+
+#九、自定义函数
+mydate <- function(type="long") {
+  switch(type,
+         long =  format(Sys.time(), "%A %B %d %Y"),
+         short = format(Sys.time(), "%m-%d-%y"),
+         cat(type, "is not a recognized type\n")
+  )
+}
+
+mydate("long")
+mydate("short")
+mydate()
+mydate("medium")
+
+#十、整合和重塑
+ #转置
+str(mtcars)
+head(mtcars,n=2)
+cars <- mtcars[1:5, 1:4] 
+t(cars)
+
+ #整合数据
+ #Group.1表示汽缸数量（4、6或8），Group.2代表挡位数（3、4或5）。
+attach(mtcars)
+aggdata <-aggregate(mtcars, by=list(cyl,gear), 
+                    FUN=mean, na.rm=TRUE)
+aggdata
+detach(mtcars)
+
+
+ #reshape包
+ID <- c(1,1,2,2)
+Time <- c(1,2,1,2)
+X1 <- c(5,3,6,2)
+X2 <- c(6,5,1,4)
+mydata <- data.frame(ID,Time,X1,X2,stringsAsFactors=FALSE)
+
+ #install.packages("reshape")
+library(reshape)
+md <- melt(mydata, id=(c("ID", "Time")))
+
+cast(md,ID+Time~variable)
+cast(md,ID+variable~Time)
+cast(md,ID~variable+Time)
+
+cast(md,ID~variable,mean)
+cast(md,Time~variable,mean)
+cast(md,ID~Time,mean)
 
 
