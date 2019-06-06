@@ -86,11 +86,13 @@ rnorm(50, mean = 50, sd = 10)
 #生成5个均匀分布的随机数
 #随机数种子
 set.seed(12) #可以随便设定
+#符合均匀吩咐
 runif(5) #设定了随机数种子，每次生成随机数都一样
 
 #均值为0，标准差为1的随机数
 #随机数种子
 set.seed(1) #可以随便设定
+#符合正态分布
 rnorm(5) #设定了随机数种子，每次生成随机数都一样
 
 #字符函数
@@ -107,7 +109,7 @@ grep("A", c("b", "A", "A", "d"), fixed = FALSE)
 #分割字符串
 strsplit("abcdef", "c")
 #插入字符
-paste("x", 1:4, sep = "M")
+paste("x", 1:4, sep = "M")#sep指定间隔符
 
 #大小写转化
 toupper("abc")
@@ -125,8 +127,76 @@ firstname <- "jane"
 cc <- c(1, 2, 3)
 #sep表示分割符，""代表无分割，默认是是一个空格
 cat("hello", firstname, cc, "\n", sep = "") 
+name <- "Bob"
+cat("hello", name, "\b.\n", "Isn\'t R", "\t", "GREAT?\n")
+
+#将函数应用于数据框和矩阵
+#符合均匀分布
+a <- matrix(runif(12), nrow = 3)
+a
+
+#按行求平均
+apply(a, 1, mean)
+#按列求平均
+apply(a, 2, mean)
+
+#练习
+
+#x最大值最小值标准化方法：x-min/(max-min)
+#1.建立数据框
+Student <- c("John Davis", "Angela Williams", "Bullwinkle Moose",
+             "David Jones", "Janice Markhammer", "Cheryl Cushing",
+             "Reuven Ytzrhak", "Greg Knox", "Joel England",
+             "Mary Rayburn")
+Math <- c(502, 600, 412, 358, 495, 512, 410, 625, 573, 522)
+Science <- c(95, 99, 80, 82, 75, 85, 80, 95, 89, 86)
+English <- c(25, 22, 18, 15, 20, 28, 15, 30, 27, 18)
+roster <- data.frame(Student, Math, Science, English)
 
 
+#2.标准化
+formatMath <- (roster$Math - min(roster$Math)) / (max(roster$Math) - min(roster$Math))
+roster$Math <- formatMath
+
+formatScience <- (roster$Science - min(roster$Science)) / (max(roster$Science) - min(roster$Science))
+roster$Science <- formatScience
+
+formatEnglish <- (roster$English - min(roster$English)) / (max(roster$English) - min(roster$English))
+roster$English <- formatEnglish
+
+#3.求均值
+roster <- transform(roster, average = apply(roster[, 2:4], 1, mean))
+
+#4.分位点
+quantile(roster$Math, c(0.8, 0.6, 0.4, 0.2))
+quantile(roster$Science, c(0.8, 0.6, 0.4, 0.2))
+quantile(roster$English, c(0.8, 0.6, 0.4, 0.2))
+
+#5.创建变量
+roster <- within(roster,{
+  grade <- NA
+  grade[average >= 0.8] <- "A"
+  grade[average < 0.8 & average >= 0.6] <- "B"
+  grade[average < 0.6 & average >= 0.4] <- "C"
+  grade[average < 0.4 & average >= 0.2] <- "D"
+  grade[average < 0.2] <- "E"
+}
+)
+
+#6.分割姓名
+roster$Student <- as.character(roster$Student)
+is.character(roster$Student)
+splitedNames <- strsplit(roster$Student, " ")
+
+#7.提取姓名
+FirstName<-sapply(splitedNames,"[", )
+LastName<-sapply(splitedNames,"[", 2)
+
+#8.添加到数据框
+roster<-cbind(FirstName,LastName,roster[, -1])
+
+#9.排序
+roster[order(LastName,FirstName), ]
 
 
 
