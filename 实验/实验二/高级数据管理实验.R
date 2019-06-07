@@ -52,8 +52,16 @@ newTable$Math <- fun(newTable$Math)
 newTable$English <- fun(newTable$English)
 newTable$Java <- fun(newTable$Java)
 newTable$Sports <- fun(newTable$Sports) 
+#方法二
+#返回的是列表
+y <- lapply(newTable[, 4: 7], fun)
+#转化成数据框
+y <- as.data.frame(y)
+
 
 #求平均
+#按行求平均
+#可以用cbind()合并
 newTable <- transform(newTable, average = apply(newTable[, 4: 7], 1, mean))
 
 #分位点
@@ -71,9 +79,15 @@ newTable <- within(newTable, {
 newTable[order(newTable$id), ]
 
 #根据name排名
+#截取姓
+z <- substr(newTable$name, 1, 1) == "小"
+
 orderByName <- newTable[order(newTable$name), ]
-myvars <- grepl("小赵", newTable$name)
-na.omit(orderByName[newTable$name, ])
+#选出同姓
+orderByName[z, ]
+
+#myvars <- grepl("小赵", newTable$name)
+#na.omit(orderByName[newTable$name, ])
 
 
 
