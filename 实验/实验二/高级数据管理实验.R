@@ -31,7 +31,7 @@ grade <- data.frame(id, name, gender, Math, English, Java, Sports)
 #去行名写入文件
 write.csv(grade, fileName, row.names = FALSE)
 
-#读取.csv文件\
+#读取.csv文件
 myTable <- read.csv(fileName, header = TRUE)
 
 #抽取50行观测
