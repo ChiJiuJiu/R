@@ -58,7 +58,7 @@ par(cex.axis=0.75,font.axis=3)
 #pch：表示点的形状，它的值可以为数值型（介于0到25之间的数值），也可以为字符型。1代表圆圈，2代表三角形，3代表“+”号。当pch的值为字符型时，那么点就通过该字符来表示。
 #lty：直线类型。参数的值可以为整数（0为空，1为实线（默认值），2为虚线，3为点线，还可以为4、5、6等），也可以为字符串（和整数是一一对应的，如"blank"、"solid"、"dashed"、"dotted"、"dotdash"、"longdash"或者"twodash"
 #col：用于设定默认的绘图颜色。
-plot(dose, drugA, type="b", pch=19, lty=2, col="red")
+plot(dose, drugA, type="o", pch=10, lty=6, col="red", bg="blue")
 #bg：用于设定绘图区域的背景颜色。当通过函数par()调用时，会同时设定参数new=FALSE。对很多设备来说，该参数的初始值就是该设备的背景颜色值，其他情况下一般为"white"。需要注意一点的是，一些图形函数例如plot.default和points等也有名为bg的参数，但是代表的含义是不同的。
 plot(dose, drugB, type="b", pch=23, lty=6, col="blue", bg="green")
 #还原环境

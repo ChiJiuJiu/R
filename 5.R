@@ -76,15 +76,20 @@ y
 z <- 10/x
 z
 
+x <- c(1:10)
+y1 <- 2 ^ x
+y2 <- x ^ 2
+
+
 opar <- par(no.readonly=TRUE)
 par(mar=c(5, 4, 4, 8) + 0.1)
 
 
-plot(x, y, type="b",
+plot(x, y1, type="b",
      pch=21, col="red",
      yaxt="n", lty=3, ann=FALSE)
 
-lines(x, z, type="b", pch=22, col="blue", lty=2)
+lines(x, y2, type="b", pch=22, col="blue", lty=2)
 
 axis(2, at=x, labels=x, col.axis="red", las=2)
 axis(4, at=z, labels=round(z, digits=2),
