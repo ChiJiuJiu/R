@@ -140,6 +140,7 @@ box()
 
 #四、核密度图
 par(mfrow=c(2,1))
+#数值型向量
 d <- density(mtcars$mpg)
 
 plot(d)

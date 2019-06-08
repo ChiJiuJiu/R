@@ -1,4 +1,4 @@
-par(opar)
+opar <- par(no.readonly=TRUE)
 #导包
 install.packages("vcd")
 library(vcd)
@@ -70,7 +70,6 @@ hist(x,
      xlab="每加仑英里数", 
      main="直方图和轴须图")  
 rug(jitter(mtcars$mpg))#rug在坐标轴上标出元素出现的频数
-lines(density(mtcars$mpg), col="blue", lwd=2)
 box()
 #加密度曲线
 h<-hist(x, 
@@ -87,7 +86,7 @@ par(opar)
 
 #3. 并列箱线图
 boxplot(mpg ~ cyl, data=mtcars,
-        main="Car Mileage Data",
+        main="箱线图",
         xlab="Number of Cylinders",
         ylab="Miles Per Gallon")
 
@@ -105,9 +104,9 @@ dotchart(x$mpg,
          gcolor = "black",
          color = x$color,
          pch=19,
-         main = "Gas Mileage for Car Models\ngrouped by cylinder",
+         main = "点图",
          xlab = "Miles Per Gallon")
-
+par(opar)
 
 
 
